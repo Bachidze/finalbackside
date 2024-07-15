@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService {
@@ -12,6 +12,12 @@ export class UsersService {
 
   create(createUserDto: CreateUserDto) {
     return this.userModel.create(createUserDto);
+  }
+
+  async addPost(userId:mongoose.Schema.Types.ObjectId,postId:mongoose.Schema.Types.ObjectId){
+    const user = await this.userModel.findById(userId)
+    user.posts.push(postId)
+    await user.save()
   }
 
   findAll() {
