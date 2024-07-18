@@ -17,6 +17,7 @@ export class PostsService {
   async create(createPostDto: CreatePostDto, user: CurrentUserDTO) {
     const post = await this.postModel.create({ ...createPostDto, userId: user.id });
     await this.usersService.addPost(user.id,post._id)
+    return post
   }
 
   findAll() {

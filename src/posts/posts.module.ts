@@ -6,11 +6,10 @@ import { Post, PostsSchema } from './entities/post.entity';
 import { UsersModule } from 'src/users/users.module';
 
 @Module({
-  imports:[
-    MongooseModule.forFeature([{name:Post.name, schema:PostsSchema}]),
-  UsersModule
-  ]
-  ,
+  imports: [
+    MongooseModule.forFeature([{ name: Post.name, schema: PostsSchema }]),
+    UsersModule,
+  ],
   controllers: [PostsController],
   providers: [PostsService],
 })

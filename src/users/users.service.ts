@@ -28,8 +28,11 @@ export class UsersService {
     return this.userModel.findOne({email}).select(['email','password','_id'])
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(id: any) {
+    return this.userModel.findById(id).populate({
+      path:"posts",
+      select:'_id title content createdAt'
+    });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

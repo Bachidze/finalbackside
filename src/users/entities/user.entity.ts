@@ -7,7 +7,7 @@ export class User {
   email: string;
   @Prop({ required: true, select:false })
   password: string;
-  @Prop()
+  @Prop({type:[mongoose.Schema.Types.ObjectId],ref:"Post"})
   posts: [mongoose.Schema.Types.ObjectId];
 }
 
