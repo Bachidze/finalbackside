@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthGurad } from 'src/auth/auth.guard';
+import { AuthGuard } from 'src/auth/auth.guard';
 import mongoose from 'mongoose';
 
 @Controller('users')
@@ -14,13 +14,13 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @UseGuards(AuthGurad)
+  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
-  @UseGuards(AuthGurad)
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: mongoose.Schema.Types.ObjectId) {
     return this.usersService.findOne(id);

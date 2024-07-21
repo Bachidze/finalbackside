@@ -1,29 +1,30 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { Observable } from "rxjs";
 
 @Injectable()
-export class AuthGurad implements CanActivate{
-    constructor(private jwtService:JwtService){}
-   async canActivate(context: ExecutionContext): Promise<boolean> {
-        const request = context.switchToHttp().getRequest()
-        const token = getToken(request)
-        if(!token) throw new UnauthorizedException()
-            try {
-                const user = await this.jwtService.verify(token)
-                request.user = {
-                    email:user.email,
-                    id:user.id
-                }
-            } catch (error) {
-                throw new UnauthorizedException()
-            }
-        return true
-    }
-}
+export class AuthGuard implements CanActivate {
+  constructor(private jwtService: JwtService) {}
 
-function getToken(req){
-    if(!req.headers['authorization']) return null
-    const token = req.headers['authorization'].split(' ')[1]
-    return token
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
+    const token = this.getToken(request);
+    if (!token) throw new UnauthorizedException('No token provided');
+
+    try {
+      const user = await this.jwtService.verifyAsync(token); // Use verifyAsync for async operation
+      request.user = user;
+    } catch (error) {
+      throw new UnauthorizedException('Invalid token');
+    }
+
+    return true;
+  }
+
+  private getToken(req): string | null {
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) return null;
+    const parts = authHeader.split(' ');
+    if (parts.length !== 2 || parts[0] !== 'Bearer') return null;
+    return parts[1];
+  }
 }

@@ -2,12 +2,12 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { AuthGurad } from 'src/auth/auth.guard';
+import { AuthGuard } from 'src/auth/auth.guard';
 import { CurrentUser } from 'src/users/user.decorator';
 import { CurrentUserDTO } from 'src/users/dto/current-user.dto';
 
 
-@UseGuards(AuthGurad)
+@UseGuards(AuthGuard)
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
