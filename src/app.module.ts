@@ -5,10 +5,12 @@ import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot("mongodb+srv://bachi:bachi@finalproject.pjtkm7y.mongodb.net/office?retryWrites=true&w=majority&appName=FinalProject"),
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(process.env.MONGO_URI),
     UsersModule, PostsModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],

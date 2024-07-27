@@ -12,6 +12,9 @@ export class Post {
     @Prop()
     content:string
 
+    @Prop()
+
+
     @Prop({type:mongoose.Schema.Types.ObjectId,ref:"User"})
     userId:mongoose.Schema.Types.ObjectId
 

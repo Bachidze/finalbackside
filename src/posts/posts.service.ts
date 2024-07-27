@@ -15,9 +15,12 @@ export class PostsService {
   ) {}
 
   async create(createPostDto: CreatePostDto, user: CurrentUserDTO) {
-    const post = await this.postModel.create({ ...createPostDto, userId: user.id });
-    await this.usersService.addPost(user.id,post._id)
-    return post
+    const post = await this.postModel.create({
+      ...createPostDto,
+      userId: user.id,
+    });
+    await this.usersService.addPost(user.id, post._id);
+    return post;
   }
 
   findAll() {
@@ -27,15 +30,18 @@ export class PostsService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  findOne(id: string) {
+    return this.postModel.findById(id);
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+  update(id: string, updatePostDto: UpdatePostDto) {
+    return this.postModel.findByIdAndUpdate(id, {
+      ...updatePostDto,
+      $inc: { __v: 1 },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+  remove(id: string) {
+    return this.postModel.findByIdAndDelete(id);
   }
 }
